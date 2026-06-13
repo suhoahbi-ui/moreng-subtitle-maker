@@ -85,7 +85,15 @@ MP4/MP3를 SRT/TXT로, SRT를 다국어 자막으로
 - ffmpeg는 앱에 포함되어 있지 않습니다.
 - `run_windows.bat` 실행 시 ffmpeg 설치 여부를 확인합니다.
 - ffmpeg가 없으면 winget 설치, 다운로드 페이지 열기, 일단 앱 실행 중 선택할 수 있습니다.
-- 수동 설치 시 `ffmpeg.exe`와 `ffprobe.exe`를 `tools\ffmpeg\bin\` 폴더에 넣으면 됩니다.
+- 수동 설치 시 gyan.dev의 `release builds` 섹션에서 `ffmpeg-release-essentials.zip`을 받는 것을 권장합니다.
+- 압축을 푼 뒤 `bin` 폴더 안의 `ffmpeg.exe`와 `ffprobe.exe`를 `tools\ffmpeg\bin\` 폴더에 넣으면 됩니다.
+- `full`, `full-shared`, `git`, `tools` 빌드는 일반 사용자가 선택하지 않아도 됩니다.
+
+이미지 안내:
+
+- gyan.dev 다운로드 페이지에서 `release builds` 섹션의 `ffmpeg-release-essentials.zip` 줄을 강조한 이미지를 함께 넣는 것을 권장합니다.
+- 이미지 초안 파일: `docs/assets/ffmpeg-release-essentials-selection.png`
+- 이미지 캡션 예시: `Windows 사용자는 release builds 섹션에서 ffmpeg-release-essentials.zip을 다운로드하세요.`
 
 ffmpeg를 직접 포함하지 않는 이유:
 

@@ -11,3 +11,6 @@
 - Added `설치전_필독.txt`, `LICENSE`, `DISCLAIMER.md`, and landing page copy draft.
 - Added Windows ZIP release script for `MoReng-Subtitle-Maker-v0.1.0-windows.zip`.
 - Added GitHub Release notes draft in `docs/release-v0.1.0.md`.
+- Fixed Windows batch launch scripts to avoid Korean text parsing issues in `cmd.exe`.
+- Clarified manual ffmpeg download guidance: use `release builds` > `ffmpeg-release-essentials.zip`.
+- Added a cropped ffmpeg download page guide image for README and landing page copy.

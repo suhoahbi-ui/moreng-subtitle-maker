@@ -55,20 +55,39 @@ https://www.gyan.dev/ffmpeg/builds/
 
 설치 순서:
 
-1. 위 페이지에서 Windows용 FFmpeg 압축 파일을 다운로드합니다.
+1. 위 페이지에서 "release builds" 섹션을 찾습니다.
 
-2. release essentials build를 받는 것을 권장합니다.
+2. 일반 사용자는 아래 파일을 받는 것을 권장합니다.
 
-3. 압축을 풀고 bin 폴더 안에서 아래 두 파일을 찾습니다.
+   ffmpeg-release-essentials.zip
+
+   이유:
+   - MoReng Subtitle Maker에는 ffmpeg.exe와 ffprobe.exe만 필요합니다.
+   - essentials build면 MP4/MP3 오디오 추출에 충분합니다.
+   - .zip 파일은 Windows 기본 압축 풀기로 열 수 있습니다.
+
+3. 아래 항목은 일반 사용자가 선택하지 않아도 됩니다.
+
+   - ffmpeg-git-essentials.7z: 최신 개발 빌드라 일반 배포 안내에는 덜 적합합니다.
+   - ffmpeg-release-essentials.7z: 용량은 작지만 7-Zip 같은 별도 프로그램이 필요할 수 있습니다.
+   - ffmpeg-release-full.7z: 더 많은 기능이 들어 있지만 이 앱에는 보통 필요하지 않습니다.
+   - ffmpeg-release-full-shared.7z: 개발/특수 용도에 가깝습니다.
+   - ffmpeg-tools.zip: ffmpeg 본체가 아니라 보조 도구 묶음입니다.
+
+4. 다운로드한 ZIP 압축을 풉니다.
+
+5. 압축을 푼 폴더 안의 bin 폴더에서 아래 두 파일을 찾습니다.
 
    ffmpeg.exe
    ffprobe.exe
 
-4. 두 파일을 이 앱의 아래 폴더에 넣습니다.
+   ffplay.exe가 같이 있어도 이 앱에는 필요하지 않습니다.
+
+6. ffmpeg.exe와 ffprobe.exe 두 파일을 이 앱의 아래 폴더에 넣습니다.
 
    tools\ffmpeg\bin\
 
-5. 그 다음 run_windows.bat를 실행합니다.
+7. 그 다음 run_windows.bat를 실행합니다.
 
 
 확인 방법

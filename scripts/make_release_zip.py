@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import shutil
+import tempfile
 import zipfile
 from pathlib import Path
 
@@ -11,7 +12,6 @@ PACKAGE_DIR_NAME = f"MoReng-Subtitle-Maker-{VERSION}-windows"
 
 ROOT = Path(__file__).resolve().parents[1]
 DIST_DIR = ROOT / "dist"
-STAGING_DIR = DIST_DIR / PACKAGE_DIR_NAME
 ZIP_PATH = DIST_DIR / ZIP_NAME
 
 FILES_TO_INCLUDE = [
@@ -27,6 +27,7 @@ FILES_TO_INCLUDE = [
     "install_ffmpeg_then_run.bat",
     "tools/ffmpeg/bin/.gitkeep",
     "docs/landing-copy.md",
+    "docs/assets/ffmpeg-release-essentials-selection.png",
 ]
 
 DIRECTORIES_TO_INCLUDE = [
@@ -65,16 +66,16 @@ def should_skip(path: Path) -> bool:
     return False
 
 
-def copy_file(relative_path: str) -> None:
+def copy_file(relative_path: str, staging_dir: Path) -> None:
     source = ROOT / relative_path
     if not source.exists():
         raise FileNotFoundError(f"Required release file is missing: {relative_path}")
-    target = STAGING_DIR / relative_path
+    target = staging_dir / relative_path
     target.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(source, target)
 
 
-def copy_directory(relative_path: str) -> None:
+def copy_directory(relative_path: str, staging_dir: Path) -> None:
     source_dir = ROOT / relative_path
     if not source_dir.exists():
         raise FileNotFoundError(f"Required release directory is missing: {relative_path}")
@@ -83,12 +84,12 @@ def copy_directory(relative_path: str) -> None:
         if source.is_dir() or should_skip(source.relative_to(ROOT)):
             continue
         relative = source.relative_to(ROOT)
-        target = STAGING_DIR / relative
+        target = staging_dir / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, target)
 
 
-def validate_staging() -> None:
+def validate_staging(staging_dir: Path) -> None:
     required_in_package = [
         "run_windows.bat",
         "README.md",
@@ -99,13 +100,13 @@ def validate_staging() -> None:
         "tools/ffmpeg/bin/.gitkeep",
     ]
     for relative_path in required_in_package:
-        if not (STAGING_DIR / relative_path).exists():
+        if not (staging_dir / relative_path).exists():
             raise RuntimeError(f"Release package is missing required file: {relative_path}")
 
     forbidden_found: list[str] = []
-    for path in STAGING_DIR.rglob("*"):
-        if path.is_file() and should_skip(path.relative_to(STAGING_DIR)):
-            forbidden_found.append(str(path.relative_to(STAGING_DIR)))
+    for path in staging_dir.rglob("*"):
+        if path.is_file() and should_skip(path.relative_to(staging_dir)):
+            forbidden_found.append(str(path.relative_to(staging_dir)))
 
     if forbidden_found:
         joined = "\n".join(f" - {item}" for item in forbidden_found)
@@ -113,25 +114,26 @@ def validate_staging() -> None:
 
 
 def make_zip() -> Path:
-    if STAGING_DIR.exists():
-        shutil.rmtree(STAGING_DIR)
-    STAGING_DIR.mkdir(parents=True, exist_ok=True)
     DIST_DIR.mkdir(parents=True, exist_ok=True)
 
-    for relative_path in FILES_TO_INCLUDE:
-        copy_file(relative_path)
-    for relative_path in DIRECTORIES_TO_INCLUDE:
-        copy_directory(relative_path)
+    with tempfile.TemporaryDirectory(prefix="release-stage-", dir=DIST_DIR) as temp_dir:
+        staging_dir = Path(temp_dir) / PACKAGE_DIR_NAME
+        staging_dir.mkdir(parents=True, exist_ok=True)
 
-    validate_staging()
+        for relative_path in FILES_TO_INCLUDE:
+            copy_file(relative_path, staging_dir)
+        for relative_path in DIRECTORIES_TO_INCLUDE:
+            copy_directory(relative_path, staging_dir)
 
-    if ZIP_PATH.exists():
-        ZIP_PATH.unlink()
+        validate_staging(staging_dir)
 
-    with zipfile.ZipFile(ZIP_PATH, "w", compression=zipfile.ZIP_DEFLATED) as archive:
-        for path in STAGING_DIR.rglob("*"):
-            if path.is_file():
-                archive.write(path, path.relative_to(DIST_DIR))
+        if ZIP_PATH.exists():
+            ZIP_PATH.unlink()
+
+        with zipfile.ZipFile(ZIP_PATH, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+            for path in staging_dir.rglob("*"):
+                if path.is_file():
+                    archive.write(path, path.relative_to(Path(temp_dir)))
 
     return ZIP_PATH
 
@@ -139,4 +141,3 @@ def make_zip() -> Path:
 if __name__ == "__main__":
     zip_path = make_zip()
     print(f"Created release ZIP: {zip_path}")
-

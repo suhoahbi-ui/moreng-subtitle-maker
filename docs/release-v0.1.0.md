@@ -57,7 +57,13 @@ ffmpeg를 앱에 직접 포함하지 않는 이유:
 - FFmpeg 공식 다운로드 페이지: https://ffmpeg.org/download.html
 - Windows용 FFmpeg 빌드: https://www.gyan.dev/ffmpeg/builds/
 
-수동 설치를 선택한 경우 `ffmpeg.exe`와 `ffprobe.exe`를 아래 폴더에 넣으면 앱에서 사용할 수 있습니다.
+수동 설치를 선택한 경우 gyan.dev 페이지의 `release builds` 섹션에서 `ffmpeg-release-essentials.zip`을 받는 것을 권장합니다.
+
+- `ffmpeg-release-essentials.zip`: 일반 사용자 권장
+- `ffmpeg-release-essentials.7z`: 7-Zip이 있다면 선택 가능
+- `ffmpeg-release-full.7z`, `full-shared.7z`, `git` 빌드, `tools.zip`: 이 앱에는 보통 필요하지 않음
+
+압축을 푼 뒤 `bin` 폴더 안의 `ffmpeg.exe`와 `ffprobe.exe`를 아래 폴더에 넣으면 앱에서 사용할 수 있습니다.
 
 ```text
 tools\ffmpeg\bin\

@@ -101,16 +101,34 @@ ffprobe -version
 
 ffmpeg를 Windows 전체에 설치하지 않고 앱 폴더에만 넣어도 됩니다.
 
-1. Windows용 FFmpeg 압축 파일을 다운로드합니다.
-2. `release essentials build`를 권장합니다.
-3. 압축을 풀고 `bin` 폴더 안에서 아래 두 파일을 찾습니다.
+1. [Windows용 FFmpeg 빌드](https://www.gyan.dev/ffmpeg/builds/) 페이지를 엽니다.
+2. `release builds` 섹션을 찾습니다.
+3. 일반 사용자는 `ffmpeg-release-essentials.zip`을 다운로드하는 것을 권장합니다.
+
+![ffmpeg-release-essentials.zip 선택 위치](docs/assets/ffmpeg-release-essentials-selection.png)
+
+선택 기준:
+
+| 항목 | 선택 여부 | 이유 |
+| --- | --- | --- |
+| `ffmpeg-release-essentials.zip` | 권장 | Windows 기본 압축 풀기로 열 수 있고, 이 앱에 필요한 `ffmpeg.exe`, `ffprobe.exe`가 들어 있습니다. |
+| `ffmpeg-release-essentials.7z` | 선택 가능 | 용량은 작지만 7-Zip 같은 별도 압축 프로그램이 필요할 수 있습니다. |
+| `ffmpeg-release-full.7z` | 보통 불필요 | 더 많은 기능이 들어 있지만 MP4/MP3 오디오 추출에는 보통 필요하지 않습니다. |
+| `ffmpeg-release-full-shared.7z` | 비추천 | 개발/특수 용도에 가깝습니다. |
+| `ffmpeg-git-*` | 비추천 | 최신 개발 빌드라 일반 사용자 안내에는 덜 적합합니다. |
+| `ffmpeg-tools.zip` | 비추천 | ffmpeg 본체가 아니라 보조 도구 묶음입니다. |
+
+4. 다운로드한 ZIP 압축을 풉니다.
+5. 압축을 푼 폴더 안의 `bin` 폴더에서 아래 두 파일을 찾습니다.
 
 ```text
 ffmpeg.exe
 ffprobe.exe
 ```
 
-4. 두 파일을 아래 폴더에 넣습니다.
+`ffplay.exe`가 같이 있어도 MoReng Subtitle Maker에는 필요하지 않습니다.
+
+6. 두 파일을 아래 폴더에 넣습니다.
 
 ```text
 tools\ffmpeg\bin\

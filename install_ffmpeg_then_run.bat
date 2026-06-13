@@ -1,22 +1,34 @@
 @echo off
-chcp 65001 > nul
 setlocal
 cd /d "%~dp0"
 
-echo MoReng Subtitle Maker - ffmpeg 설치 후 실행
+echo MoReng Subtitle Maker - install ffmpeg and run
 echo.
 
 where winget > nul 2> nul
-if errorlevel 1 (
-  echo winget을 찾을 수 없습니다.
-  echo 설치전_필독.txt를 읽고 ffmpeg를 수동 설치하거나 tools\ffmpeg\bin 폴더에 넣어주세요.
-  pause
-  exit /b 1
-)
+if errorlevel 1 goto WingetMissing
 
 winget install --id Gyan.FFmpeg -e
+if errorlevel 1 goto InstallFailed
+
 echo.
-echo 설치가 끝났습니다.
-echo 현재 창에 PATH가 바로 반영되지 않을 수 있으니, run_windows.bat가 실패하면 창을 닫고 다시 실행해주세요.
+echo ffmpeg installation finished.
+echo If run_windows.bat still cannot find ffmpeg, close this window and run it again.
 echo.
 call "%~dp0run_windows.bat"
+exit /b %ERRORLEVEL%
+
+:WingetMissing
+echo winget was not found.
+echo Please install ffmpeg manually or place ffmpeg.exe and ffprobe.exe under:
+echo %~dp0tools\ffmpeg\bin\
+echo Recommended manual download: release builds - ffmpeg-release-essentials.zip
+pause
+exit /b 1
+
+:InstallFailed
+echo.
+echo ffmpeg installation failed.
+echo Please read README.md and try manual installation.
+pause
+exit /b 1
