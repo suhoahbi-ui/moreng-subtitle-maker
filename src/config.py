@@ -2,8 +2,10 @@ from __future__ import annotations
 
 APP_TITLE = "MoReng Subtitle Maker"
 APP_SUBTITLE = "모랭 자막 메이커"
+APP_BRAND = "Made by MoneyCheck"
 APP_DESCRIPTION = "MP4/MP3를 SRT/TXT로 변환하고, Gemini API Key로 다국어 자막을 생성합니다."
 CONTACT_EMAIL = "moneychecktruck@gmail.com"
+GITHUB_URL = "https://github.com/suhoahbi-ui/moreng-subtitle-maker"
 
 SUPPORTED_MEDIA_EXTENSIONS = {".mp4", ".mp3"}
 

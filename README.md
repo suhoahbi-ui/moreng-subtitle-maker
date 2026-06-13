@@ -1,8 +1,15 @@
 # MoReng Subtitle Maker
 
-모랭 자막 메이커는 Windows PC에서 MP4/MP3 파일을 SRT/TXT로 변환하고, Gemini API Key로 다국어 SRT 자막을 생성하는 로컬 도구입니다.
+MoReng Subtitle Maker는 머니체크가 만든 로컬 자막 도구입니다. MP4/MP3 파일에서 SRT/TXT 자막을 생성하고, 사용자의 Gemini API Key로 다국어 SRT 번역을 지원합니다.
 
 이 저장소는 MoReng Subtitle Maker 전용 저장소입니다. 기존 모랭 랜딩페이지/본체 저장소인 `suhoahbi-ui/moreng`은 이 작업에서 수정하지 않습니다. 나중에 모랭 랜딩페이지에 붙일 소개 문구는 [docs/landing-copy.md](docs/landing-copy.md)에 따로 정리했습니다.
+
+제품 정보:
+
+- Product: MoReng Subtitle Maker / 모랭 자막 메이커
+- Created by: MoneyCheck / 머니체크
+- GitHub: https://github.com/suhoahbi-ui/moreng-subtitle-maker
+- Contact: moneychecktruck@gmail.com
 
 ## 1. MoReng Subtitle Maker 소개
 
@@ -10,7 +17,8 @@ MoReng Subtitle Maker는 강의, 인터뷰, 유튜브 롱폼 영상, 녹음파�
 
 - 영문명: MoReng Subtitle Maker
 - 한글명: 모랭 자막 메이커
-- 앱 저장소: `suhoahbi-ui/moreng-subtitle-maker`
+- 제작: MoneyCheck / 머니체크
+- 앱 저장소: https://github.com/suhoahbi-ui/moreng-subtitle-maker
 - 문의: moneychecktruck@gmail.com
 
 영상/오디오 파일은 외부 서버로 업로드되지 않습니다. 음성 인식은 사용자의 PC에서 실행됩니다. 단, 번역 기능을 사용할 경우 SRT의 자막 텍스트는 Gemini API로 전송됩니다.
@@ -112,6 +120,21 @@ tools\ffmpeg\bin\
 
 ## 5. 실행 방법
 
+### GitHub Releases ZIP 다운로드 후 실행
+
+일반 사용자는 GitHub Releases에서 Windows ZIP 파일을 다운로드해 실행할 수 있습니다.
+
+1. GitHub Releases에서 `MoReng-Subtitle-Maker-v0.1.0-windows.zip`을 다운로드합니다.
+2. 원하는 폴더에 압축을 풉니다.
+3. 압축을 푼 폴더 안의 `설치전_필독.txt`를 먼저 읽습니다.
+4. `run_windows.bat`를 더블클릭합니다.
+5. ffmpeg가 없으면 안내에 따라 설치하거나 수동 다운로드합니다.
+6. 처음 실행 시 Python 가상환경과 필요한 패키지가 설치됩니다.
+
+이 ZIP 배포판에는 `ffmpeg.exe`, `ffprobe.exe`, Gemini API Key, 샘플 미디어 파일이 포함되어 있지 않습니다.
+
+### 개발 폴더에서 실행
+
 가장 쉬운 방법은 `run_windows.bat`를 더블클릭하는 것입니다.
 
 처음 실행하면 다음 작업을 진행합니다.
@@ -137,6 +160,20 @@ Python 3.10 이상을 권장합니다.
 
 ```powershell
 py --version
+```
+
+### 릴리스 ZIP 직접 만들기
+
+저장소를 clone한 개발자는 아래 명령으로 GitHub Releases에 올릴 ZIP 파일을 만들 수 있습니다.
+
+```powershell
+python scripts/make_release_zip.py
+```
+
+생성 위치:
+
+```text
+dist/MoReng-Subtitle-Maker-v0.1.0-windows.zip
 ```
 
 ## 6. Gemini API Key 설정

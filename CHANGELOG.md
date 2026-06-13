@@ -9,4 +9,5 @@
 - Added SRT translation that preserves subtitle numbers and time codes.
 - Added ffmpeg preflight guidance through `run_windows.bat` and `install_ffmpeg_then_run.bat`.
 - Added `설치전_필독.txt`, `LICENSE`, `DISCLAIMER.md`, and landing page copy draft.
-
+- Added Windows ZIP release script for `MoReng-Subtitle-Maker-v0.1.0-windows.zip`.
+- Added GitHub Release notes draft in `docs/release-v0.1.0.md`.

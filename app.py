@@ -9,6 +9,7 @@ from tkinter import filedialog, messagebox, ttk
 
 from src.audio import extract_audio_to_wav, get_duration_seconds
 from src.config import (
+    APP_BRAND,
     APP_DESCRIPTION,
     APP_SUBTITLE,
     APP_TITLE,
@@ -19,6 +20,7 @@ from src.config import (
     SOURCE_LANGUAGES,
     SUPPORTED_MEDIA_EXTENSIONS,
     TARGET_LANGUAGES,
+    GITHUB_URL,
     WHISPER_MODELS,
 )
 from src.gemini_translator import GeminiTranslator, write_failure_log
@@ -87,6 +89,7 @@ class SubtitleToolApp:
         style.configure("Footer.TLabel", background=self.colors["bg"], foreground=self.colors["muted"], font=("맑은 고딕", 9))
         style.configure("Title.TLabel", background=self.colors["bg"], foreground=self.colors["text"], font=("맑은 고딕", 22, "bold"))
         style.configure("Subtitle.TLabel", background=self.colors["bg"], foreground=self.colors["muted"], font=("맑은 고딕", 12, "bold"))
+        style.configure("Brand.TLabel", background=self.colors["bg"], foreground=self.colors["primary"], font=("맑은 고딕", 10, "bold"))
         style.configure("HeaderBody.TLabel", background=self.colors["bg"], foreground=self.colors["muted"], font=("맑은 고딕", 10))
         style.configure("CardTitle.TLabel", background=self.colors["card"], foreground=self.colors["text"], font=("맑은 고딕", 12, "bold"))
         style.configure("Status.TLabel", background=self.colors["card"], foreground=self.colors["text"], font=("맑은 고딕", 16, "bold"))
@@ -140,12 +143,13 @@ class SubtitleToolApp:
 
         ttk.Label(frame, text=APP_TITLE, style="Title.TLabel").grid(row=0, column=0, sticky="w")
         ttk.Label(frame, text=APP_SUBTITLE, style="Subtitle.TLabel").grid(row=1, column=0, sticky="w", pady=(2, 8))
-        ttk.Label(frame, text=APP_DESCRIPTION, style="HeaderBody.TLabel").grid(row=2, column=0, sticky="w")
+        ttk.Label(frame, text=APP_BRAND, style="Brand.TLabel").grid(row=2, column=0, sticky="w", pady=(0, 8))
+        ttk.Label(frame, text=APP_DESCRIPTION, style="HeaderBody.TLabel").grid(row=3, column=0, sticky="w")
         ttk.Label(
             frame,
             text="영상/오디오는 외부 서버로 업로드되지 않습니다. 번역 기능 사용 시 SRT 텍스트만 Gemini API로 전송됩니다.",
             style="HeaderBody.TLabel",
-        ).grid(row=3, column=0, sticky="w", pady=(4, 0))
+        ).grid(row=4, column=0, sticky="w", pady=(4, 0))
         return frame
 
     def _card(self, parent: ttk.Frame, title: str, description: str) -> ttk.Frame:
@@ -305,11 +309,12 @@ class SubtitleToolApp:
         frame.columnconfigure(0, weight=1)
         lines = [
             "MoReng Subtitle Maker는 머니체크가 만든 로컬 자막 도구입니다.",
+            f"GitHub: {GITHUB_URL}",
+            f"문의: {CONTACT_EMAIL}",
             "영상/오디오 파일은 외부 서버로 업로드되지 않습니다.",
             "단, 번역 기능을 사용할 경우 SRT의 자막 텍스트는 Gemini API로 전송됩니다.",
             "Gemini API Key는 사용자가 직접 발급하고 직접 입력해야 합니다.",
             "API Key 사용량, 과금, 이용 제한, 번역 결과에 대한 책임은 사용자에게 있습니다.",
-            f"문의: {CONTACT_EMAIL}",
         ]
         ttk.Label(frame, text="\n".join(lines), style="Footer.TLabel", justify="left").grid(row=0, column=0, sticky="w")
         return frame
@@ -595,4 +600,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

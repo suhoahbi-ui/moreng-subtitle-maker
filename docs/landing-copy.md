@@ -2,6 +2,14 @@
 
 이 문서는 나중에 `suhoahbi-ui/moreng` 저장소의 랜딩페이지 또는 별도 상세 페이지에 옮겨 붙이기 위한 문구 초안입니다. 이 저장소에서는 실제 모랭 웹사이트를 수정하지 않습니다.
 
+## 제품 정보
+
+- Product: MoReng Subtitle Maker / 모랭 자막 메이커
+- Type: MoReng 확장 도구
+- Created by: MoneyCheck / 머니체크
+- GitHub: https://github.com/suhoahbi-ui/moreng-subtitle-maker
+- Contact: moneychecktruck@gmail.com
+
 ## 추천 URL
 
 - `/moreng/subtitle-maker`
@@ -15,12 +23,12 @@ MoReng Subtitle Maker
 
 ### 설명
 
-MP4/MP3 파일을 SRT/TXT로 변환하고, Gemini API Key로 다국어 자막까지 생성하는 로컬 자막 도구입니다.
+머니체크가 만든 MoReng 확장 도구입니다. MP4/MP3 파일을 SRT/TXT로 변환하고, Gemini API Key로 다국어 자막까지 생성합니다.
 
 ### 버튼
 
 - 자세히 보기
-- 다운로드
+- Windows 버전 다운로드
 
 ## 새 상세 페이지 구성
 
@@ -42,6 +50,11 @@ MP4/MP3를 SRT/TXT로, SRT를 다국어 자막으로
 
 - Windows 버전 다운로드
 - GitHub에서 보기
+
+버튼 링크 메모:
+
+- Windows 버전 다운로드: GitHub Releases의 최신 Windows ZIP 파일
+- GitHub에서 보기: https://github.com/suhoahbi-ui/moreng-subtitle-maker
 
 보안 안내:
 
@@ -109,4 +122,3 @@ ffmpeg를 직접 포함하지 않는 이유:
 ### 7. 문의
 
 moneychecktruck@gmail.com
-
