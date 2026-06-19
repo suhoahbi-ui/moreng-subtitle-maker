@@ -1,11 +1,16 @@
 from __future__ import annotations
 
 import json
+import time
 from dataclasses import replace
 from pathlib import Path
 from typing import Callable
 
-from .config import GEMINI_MODEL, GEMINI_TRANSLATION_BATCH_SIZE
+from .config import (
+    GEMINI_MODEL,
+    GEMINI_TRANSLATION_BATCH_SIZE,
+    GEMINI_TRANSLATION_RETRY_DELAYS_SECONDS,
+)
 from .models import SrtBlock
 from .utils import wrap_subtitle_text
 
@@ -22,6 +27,7 @@ class GeminiTranslator:
         api_key: str,
         model_name: str = GEMINI_MODEL,
         batch_size: int = GEMINI_TRANSLATION_BATCH_SIZE,
+        retry_delays: tuple[float, ...] = GEMINI_TRANSLATION_RETRY_DELAYS_SECONDS,
     ) -> None:
         if not api_key.strip():
             raise GeminiTranslationError("Gemini API Key가 비어 있습니다.")
@@ -38,6 +44,7 @@ class GeminiTranslator:
         self._client = genai.Client(api_key=api_key.strip())
         self._model_name = model_name
         self._batch_size = batch_size
+        self._retry_delays = retry_delays
 
     def translate_blocks(
         self,
@@ -58,7 +65,12 @@ class GeminiTranslator:
                 progress_callback("번역 중", start / total)
 
             try:
-                translated_text_by_id = self._translate_batch(batch, target_language_name)
+                translated_text_by_id = self._translate_batch_with_retry(
+                    batch,
+                    target_language_name,
+                    progress_callback=progress_callback,
+                    progress_ratio=start / total,
+                )
             except Exception as exc:
                 translated_text_by_id = {}
                 failures.append(
@@ -79,6 +91,31 @@ class GeminiTranslator:
             progress_callback("번역 완료", 1.0)
 
         return translated_blocks, failures
+
+    def _translate_batch_with_retry(
+        self,
+        blocks: list[SrtBlock],
+        target_language_name: str,
+        progress_callback: ProgressCallback | None = None,
+        progress_ratio: float = 0.0,
+    ) -> dict[int, str]:
+        for attempt_index in range(len(self._retry_delays) + 1):
+            try:
+                return self._translate_batch(blocks, target_language_name)
+            except Exception as exc:
+                if not self._is_retryable_error(exc) or attempt_index >= len(self._retry_delays):
+                    raise
+
+                delay = self._retry_delays[attempt_index]
+                if progress_callback:
+                    retry_number = attempt_index + 1
+                    progress_callback(
+                        f"Gemini 혼잡으로 {int(delay)}초 후 재시도 {retry_number}",
+                        progress_ratio,
+                    )
+                time.sleep(delay)
+
+        raise GeminiTranslationError("Gemini 번역 요청 재시도에 실패했습니다.")
 
     def _translate_batch(self, blocks: list[SrtBlock], target_language_name: str) -> dict[int, str]:
         payload = [{"id": block.index, "text": block.text} for block in blocks]
@@ -145,6 +182,22 @@ class GeminiTranslator:
                 result[block_id] = translated_text.strip()
         return result
 
+    @staticmethod
+    def _is_retryable_error(exc: Exception) -> bool:
+        message = str(exc).lower()
+        retryable_markers = (
+            "503",
+            "unavailable",
+            "high demand",
+            "temporarily",
+            "timeout",
+            "deadline",
+            "429",
+            "resource_exhausted",
+            "rate limit",
+        )
+        return any(marker in message for marker in retryable_markers)
+
 
 def write_failure_log(failures: list[str], output_srt_path: str | Path) -> Path | None:
     if not failures:
@@ -153,4 +206,3 @@ def write_failure_log(failures: list[str], output_srt_path: str | Path) -> Path 
     log_path = path.with_name(f"{path.stem}.translation_failures.log")
     log_path.write_text("\n".join(failures) + "\n", encoding="utf-8")
     return log_path
-

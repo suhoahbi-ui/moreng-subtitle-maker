@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Added automatic retries for temporary Gemini translation failures such as `503 UNAVAILABLE`, high demand, timeout, and rate limit responses.
+- Clarified Gemini temporary failure handling in README.
+- Improved user-facing error messages for Gemini high-demand and rate-limit failures.
+
 ## 0.1.0 - 2026-06-13
 
 - Renamed public product to MoReng Subtitle Maker / 모랭 자막 메이커.

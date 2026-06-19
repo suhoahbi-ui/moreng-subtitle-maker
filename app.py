@@ -527,11 +527,16 @@ class SubtitleToolApp:
 
     def _friendly_error(self, action: str, exc: Exception) -> str:
         raw = str(exc)
-        if "ffmpeg" in raw.lower() or "ffprobe" in raw.lower():
+        raw_lower = raw.lower()
+        if "ffmpeg" in raw_lower or "ffprobe" in raw_lower:
             return "ffmpeg를 찾을 수 없습니다. 설치전_필독.txt 또는 README의 ffmpeg 설치 안내를 확인해주세요."
         if "SRT" in raw or "srt" in raw:
             return "선택한 SRT 파일을 읽을 수 없습니다. 파일 형식과 내용을 확인해주세요."
-        if "API Key" in raw or "api key" in raw.lower() or "Gemini" in raw:
+        if "503" in raw or "UNAVAILABLE" in raw or "high demand" in raw_lower:
+            return "Gemini 모델이 일시적으로 혼잡합니다. 잠시 후 다시 시도해주세요."
+        if "429" in raw or "RESOURCE_EXHAUSTED" in raw or "rate limit" in raw_lower:
+            return "Gemini 사용량 제한 또는 요청 제한에 걸렸습니다. 잠시 후 다시 시도하거나 Google/Gemini 사용량을 확인해주세요."
+        if "API Key" in raw or "api key" in raw_lower or "Gemini" in raw:
             return "Gemini API Key 또는 Gemini 번역 요청을 확인해주세요. API Key 저장 상태와 사용량 제한을 확인할 수 있습니다."
         return f"{action} 중 오류가 발생했습니다: {raw}"
 
