@@ -27,6 +27,7 @@ FILES_TO_INCLUDE = [
     "install_ffmpeg_then_run.bat",
     "tools/ffmpeg/bin/.gitkeep",
     "docs/landing-copy.md",
+    "docs/release-v0.1.0.md",
     "docs/assets/ffmpeg-release-essentials-selection.png",
 ]
 

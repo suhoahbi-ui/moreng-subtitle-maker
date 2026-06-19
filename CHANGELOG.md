@@ -2,9 +2,11 @@
 
 ## Unreleased
 
-- Added automatic retries for temporary Gemini translation failures such as `503 UNAVAILABLE`, high demand, timeout, and rate limit responses.
+- Added automatic retries for temporary Gemini translation failures such as `503 UNAVAILABLE`, high demand, timeout, and deadline responses.
 - Clarified Gemini temporary failure handling in README.
 - Improved user-facing error messages for Gemini high-demand and rate-limit failures.
+- Changed the translation default model to `gemini-2.5-flash-lite`, increased the translation batch size, and added Gemini Flash fallback models to reduce request-limit failures.
+- Stopped treating quota-exhausted `429 RESOURCE_EXHAUSTED` responses as normal retryable congestion.
 
 ## 0.1.0 - 2026-06-13
 

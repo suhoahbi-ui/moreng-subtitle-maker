@@ -20,6 +20,7 @@ MoReng Subtitle Maker는 Windows PC에서 MP4/MP3 파일을 SRT/TXT로 변환하
 - faster-whisper 기반 로컬 음성 인식
 - Gemini API Key 마스킹 입력, 저장, 삭제
 - 영어/일본어/중국어/베트남어 SRT 번역
+- Gemini 모델 혼잡 또는 일부 모델 요청 한도 발생 시 재시도/모델 전환 처리
 - 원본 SRT 번호와 시간 코드 유지
 - 진행 상태와 사용자용 로그 표시
 
@@ -78,6 +79,7 @@ tools\ffmpeg\bin\
 - 입력창과 저장 상태에서는 실제 키가 평문으로 보이지 않습니다.
 - 사용자는 언제든지 저장된 API Key를 삭제할 수 있습니다.
 - Gemini API 사용량, 요금, 제한, 오류, 번역 품질에 대한 책임은 사용자에게 있습니다.
+- 무료 티어 요청 한도 또는 `429 RESOURCE_EXHAUSTED`가 계속 발생하면 Google AI Studio의 사용량/결제 설정을 확인해야 합니다.
 
 ## 개인정보와 외부 전송 범위
 
